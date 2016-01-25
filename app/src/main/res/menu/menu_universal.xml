@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_string"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/okhttp_string"/>
+    <item
+        android:id="@+id/action_json"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/okhttp_json"/>
+    <item
+        android:id="@+id/action_download_list"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/okhttp_download_list"/>
+    <item
+        android:id="@+id/action_upload"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/okhttp_upload"/>
+    <item
+        android:id="@+id/action_download_easy"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/okhttp_download_easy"/>
+    <item
+        android:id="@+id/action_download_manager"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/okhttp_download_manager"/>
+    <item
+        android:id="@+id/action_other"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/okhttp_other"/>
+</menu>
