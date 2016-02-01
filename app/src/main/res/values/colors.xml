@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="theme_color">@color/colorPrimary</color>
+    <!-- 线条颜色 -->
+    <color name="lineColor">#d7d7d7</color>
 </resources>

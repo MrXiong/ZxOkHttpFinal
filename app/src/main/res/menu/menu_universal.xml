@@ -34,5 +34,20 @@
         android:id="@+id/action_other"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:title="@string/okhttp_other"/>
+        android:title="@string/ultra_pull_smarttab"/>
+    <item
+        android:id="@+id/action_fragment_tabHost"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/fragmentTabHost"/>
+    <item
+        android:id="@+id/action_material_refreshLayou"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/materialRefreshLayout"/>
+    <item
+        android:id="@+id/action_super_ptrFrameLayout"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/super_ptrFrameLayout"/>
 </menu>

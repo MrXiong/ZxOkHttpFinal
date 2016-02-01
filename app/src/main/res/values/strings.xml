@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">大雄</string>
-    
+
     <string name="okhttp_obj">接口解析bean</string>
     <string name="okhttp_string">接口String回调</string>
     <string name="okhttp_json">接口jsonobject回调</string>
@@ -8,5 +8,11 @@
     <string name="okhttp_download_manager">下载管理</string>
     <string name="okhttp_upload">上传文件</string>
     <string name="okhttp_download_easy">文件下载</string>
-    <string name="okhttp_other">其他</string>
+    <string name="ultra_pull_smarttab">SmartTabLayout+ultra_pull</string>
+    <string name="fragmentTabHost">fragmentTabHost</string>
+    <string name="materialRefreshLayout">materialRefreshLayout</string>
+    <string name="super_ptrFrameLayout">上拉下拉</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

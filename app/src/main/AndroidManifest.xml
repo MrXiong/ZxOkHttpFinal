@@ -19,6 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.UltraPullActivity" />
+        <activity android:name=".ui.activity.TestActivity" />
+        <activity android:name=".ui.activity.MaterialRefreshLayoutActivity" />
+        <activity android:name=".ui.activity.SuperPtrFrameLayoutActivity"></activity>
     </application>
 
 </manifest>

@@ -1,10 +1,11 @@
 package com.demo.zx.zxokhttpfinal.base;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
@@ -13,17 +14,22 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.demo.zx.zxokhttpfinal.R;
 import com.demo.zx.zxokhttpfinal.adapter.NewGameListAdapter;
+import com.demo.zx.zxokhttpfinal.adapter.SuperPtrFrameLayoutAdapter;
 import com.demo.zx.zxokhttpfinal.http.Api;
 import com.demo.zx.zxokhttpfinal.http.MyBaseHttpRequestCallback;
 import com.demo.zx.zxokhttpfinal.http.model.GameInfo;
 import com.demo.zx.zxokhttpfinal.http.model.NewGameResponse;
 import com.demo.zx.zxokhttpfinal.http.model.UploadResponse;
 import com.demo.zx.zxokhttpfinal.ui.activity.DownloadManangerActivity;
+import com.demo.zx.zxokhttpfinal.ui.activity.MaterialRefreshLayoutActivity;
+import com.demo.zx.zxokhttpfinal.ui.activity.TestActivity;
+import com.demo.zx.zxokhttpfinal.ui.activity.UltraPullActivity;
 import com.demo.zx.zxokhttpfinal.ui.widget.dialogfragment.DownLoadListDialogFragment;
 import com.demo.zx.zxokhttpfinal.ui.widget.dialogfragment.UniversalDialogFragment;
 import com.demo.zx.zxokhttpfinal.ui.widget.progress.FileProgressDialog;
 import com.demo.zx.zxokhttpfinal.ui.widget.swipeview.SwipeRefreshLayout;
 import com.demo.zx.zxokhttpfinal.ui.widget.swipeview.SwipeRefreshLayoutDirection;
+import com.demo.zx.zxokhttpfinal.utils.AnimationUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,8 +49,8 @@ import us.feras.mdv.MarkdownView;
 
 public class UniversalActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.gv_game)
-    GridView mGvGame;
+    @Bind(R.id.rv_game)
+    RecyclerView mRvGame;
     //NewGameListAdapter mNewGameListAdapter;
     List<GameInfo> mGameList;
     @Bind(R.id.swipe_layout)
@@ -52,12 +58,13 @@ public class UniversalActivity extends BaseActivity implements SwipeRefreshLayou
     @Bind(R.id.mv_code)
     MarkdownView mMvCode;
     private int mPage = 1;
-    private NewGameListAdapter mNewGameListAdapter;
+    //private NewGameListAdapter mNewGameListAdapter;
 
     private RequestParams mParams;
     private UniversalDialogFragment mUniversalDialogFragment;
     private String mResult;
     private List<com.demo.zx.zxokhttpfinal.model.GameInfo> mLocalGameList = new ArrayList<>();
+    private SuperPtrFrameLayoutAdapter mSuperPtrFrameLayoutAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +85,18 @@ public class UniversalActivity extends BaseActivity implements SwipeRefreshLayou
 
         setTitle("游戏列表");
         mGameList = new ArrayList<>();
-        mNewGameListAdapter = new NewGameListAdapter(this, mGameList, R.layout.adapter_new_game_list_item);
-        mGvGame.setAdapter(mNewGameListAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
+        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        mRvGame.setLayoutManager(gridLayoutManager);
+
+
+       // mNewGameListAdapter = new NewGameListAdapter(this, mGameList, R.layout.adapter_new_game_list_item);
+        mSuperPtrFrameLayoutAdapter = new SuperPtrFrameLayoutAdapter();
+        mSuperPtrFrameLayoutAdapter.setList(mGameList);
+        mRvGame.setAdapter(mSuperPtrFrameLayoutAdapter);
+        checkScroll();
         mParams = new RequestParams(this);
-        mParams.put("limit", 6);
+        mParams.put("limit", 9);
         mParams.put("page", mPage);
         //首次自动加载
         new Handler().postDelayed(new Runnable() {
@@ -123,6 +138,15 @@ public class UniversalActivity extends BaseActivity implements SwipeRefreshLayou
                 startActivity(new Intent(this, DownloadManangerActivity.class));
                 break;
             case R.id.action_other :
+                startActivity(new Intent(this, UltraPullActivity.class));
+                break;
+            case R.id.action_fragment_tabHost :
+                startActivity(new Intent(this, TestActivity.class));
+                break;
+            case R.id.action_material_refreshLayou :
+                startActivity(new Intent(this, MaterialRefreshLayoutActivity.class));
+                break;
+            case R.id.action_super_ptrFrameLayout :
                 break;
             default:
                 break;
@@ -227,6 +251,7 @@ public class UniversalActivity extends BaseActivity implements SwipeRefreshLayou
         });
     }
     private void requestData(final SwipeRefreshLayoutDirection direction) {
+        //mGvGame.setLayoutAnimation(AnimationUtils.getUniversalAnimation(this));
         if(direction == SwipeRefreshLayoutDirection.TOP) {
             mPage = 1;
         } else {
@@ -262,7 +287,7 @@ public class UniversalActivity extends BaseActivity implements SwipeRefreshLayou
                         mGameList.clear();
                     }
                         mGameList.addAll(data);
-                        mNewGameListAdapter.notifyDataSetChanged();
+                    mSuperPtrFrameLayoutAdapter.notifyDataSetChanged();
 
                 } else {
                     Toast.makeText(getBaseContext(), newGameResponse.getMsg(), Toast.LENGTH_SHORT).show();
@@ -289,7 +314,36 @@ public class UniversalActivity extends BaseActivity implements SwipeRefreshLayou
 
         });
     }
+    private void checkScroll() {
+        mRvGame.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean isSlidingToLast = false;
 
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LinearLayoutManager manager = (LinearLayoutManager)recyclerView.getLayoutManager();
+                // 当不滚动时
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    //获取最后一个完全显示的ItemPosition
+                    int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+                    int totalItemCount = manager.getItemCount();
+                    // 判断是否滚动到底部，并且是向右滚动
+                    if (lastVisibleItem == (totalItemCount -1) && isSlidingToLast) {
+                        //加载更多功能的代码
+                        requestData(SwipeRefreshLayoutDirection.BOTTOM);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //dx用来判断横向滑动方向，dy用来判断纵向滑动方向
+                //大于0表示，正在向右/下滚动
+                super.onScrolled(recyclerView, dx, dy);
+                isSlidingToLast = dy > 0 ? true : false;
+            }
+
+        });
+    }
     @Override
     public void onRefresh(SwipeRefreshLayoutDirection direction) {
         requestData(direction);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -8,11 +9,13 @@
         android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:direction="both"
         >
-        <GridView
-            android:id="@+id/gv_game"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_game"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layoutAnimation="@anim/anim_layout"
             android:numColumns="3"
             />
     </com.demo.zx.zxokhttpfinal.ui.widget.swipeview.SwipeRefreshLayout>

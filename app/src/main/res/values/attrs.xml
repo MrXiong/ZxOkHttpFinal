@@ -7,4 +7,14 @@
             <enum name="both" value="2" />
         </attr>
     </declare-styleable>
+
+    <attr name="zxText" format="string" />
+    <attr name="zxTextColor" format="color" />
+    <attr name="zxTextSize" format="dimension" />
+
+    <declare-styleable name="CustomTitleView">
+        <attr name="zxText" />
+        <attr name="zxTextColor" />
+        <attr name="zxTextSize" />
+    </declare-styleable>
 </resources>
